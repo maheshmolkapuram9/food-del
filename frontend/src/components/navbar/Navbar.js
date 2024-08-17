@@ -1,14 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import "./Navbar.css";
 import { assets } from '../../assets/assets';
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import { StoreContext } from '../../context/Storecontext';
+import {HashLink} from "react-router-hash-link";
+import { NavLink } from 'react-router-dom';
 
 
 function Navbar({setShowLogin}) {
-  const [menu,setMenu] = useState("home");
+
   const {getCartTotalAmount, token, setToken} = useContext(StoreContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const logout = ()=>{
     localStorage.removeItem("token");
@@ -20,15 +23,15 @@ function Navbar({setShowLogin}) {
     <div className='navbar'>
       <Link to="/"><img src={assets.logo} alt="logo" className='logo'/></Link>
       <ul className="navbar-menu">
-        <Link to="/" onClick={()=>{setMenu("home")}} className={ menu==="home"?"active":"" }>home</Link>
-        <a href='#explore-menu' onClick={()=>{setMenu("menu")}} className={ menu==="menu"?"active":"" }>menu</a>
-        <a href='#app-download' onClick={()=>{setMenu("mobile-app")}} className={ menu==="mobile-app"?"active":"" }>mobile-app</a>
-        <a href='#footer' onClick={()=>{setMenu("contact us")}} className={ menu==="contact us"?"active":"" }>contact us</a>
+        <HashLink smooth className={location.hash === "" && location.pathname === "/"? "active":"" } to="/">home</HashLink>
+        <HashLink smooth className={location.hash === "#explore-menu" ? "active" : ""} to='/#explore-menu'>menu</HashLink>
+        <HashLink smooth className={location.hash === "#app-download" ? "active" : ""} to='/#app-download'>mobile-app</HashLink>
+        <HashLink smooth className={location.hash === "#footer" ? "active" : ""} to='/#footer'>contact us</HashLink>
       </ul>
       <div className="navbar-right">
         <img src={assets.search_icon} alt="search icon" />
         <div className="navbar-search-icon">
-            <Link to="/cart"><img src={assets.basket_icon} alt="basket icon" /></Link>
+            <NavLink to="/cart"><img src={assets.basket_icon} alt="basket icon" /></NavLink>
             <div className={getCartTotalAmount()===0 ? "" : "dot"}></div>
         </div>
         {!token ? 
