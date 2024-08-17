@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
-  const endPointUrl = "http://localhost:3123";
+  const endPointUrl = "https://food-del-tomato-backend.onrender.com";
 
   return ( 
     <div>
